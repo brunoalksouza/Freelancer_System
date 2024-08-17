@@ -1,4 +1,5 @@
 using Domain.Enums;
+using Domain.Exceptions;
 
 namespace Domain.Entities;
 
@@ -15,9 +16,16 @@ public abstract class User
     public bool PerfilIsCompleted { get; set; } = false;
     public DateTime CreatedAt { get; set; }
     public UserRole Role { get; set; }
+
     public async Task AddReviewAsync(Review review)
     {
-        throw new NotImplementedException();
+        var userAlreadyReviewedThisUser =
+            Reviews.Select(r => r.UserFromId == review.UserFromId) == null;
+
+        if (!userAlreadyReviewedThisUser)
+            throw new UserAlreadyReviewedAnUserException("The user who wrote the review already reviewed this user");
+
+        Reviews.Add(review);
     }
 
     public async Task AddNewProposalAsync(Proposal proposal)
