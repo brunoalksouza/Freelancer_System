@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -7,6 +8,7 @@ namespace API.Controllers;
 public class ExampleController : ControllerBase
 {
     [HttpGet]
+    [Authorize]
     public ActionResult<string> Get()
     {
         return Ok("Example API");
