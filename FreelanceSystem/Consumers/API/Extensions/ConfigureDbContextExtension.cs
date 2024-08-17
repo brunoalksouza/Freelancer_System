@@ -8,7 +8,9 @@ public static class ConfigureDbContextExtension
 {
     public static void ConfigureDbContext(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("SqlServer");
+        var connectionString = Environment.GetEnvironmentVariable("VPSConnectionString");
+        if (string.IsNullOrEmpty(connectionString))
+            throw new InvalidOperationException("VPSConnectionString enviroment variable is not configured");
 
         builder.Services.AddDbContext<AppDbContext>(opt =>
         {
