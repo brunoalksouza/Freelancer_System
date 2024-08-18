@@ -56,7 +56,7 @@ public abstract class User
         if (userAlreadyProposal)
             throw new InvalidProposalException("You already have a proposal for this service");
 
-        proposal.SetProposalStatus(ProposalStatus.PENDING);
+        proposal.Status = ProposalStatus.PENDING;
         Proposals.Add(proposal);
     }
 }
