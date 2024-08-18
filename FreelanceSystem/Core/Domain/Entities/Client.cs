@@ -5,11 +5,9 @@ namespace Domain.Entities;
 
 public class Client : User
 {
-    public async Task AddNewServiceAsync(Service service)
-    {
-        throw new NotImplementedException();
-    }
+    public List<Service> Services { get; private set; }
 
+    public async Task CreateNewServiceAsync(Service service) => Services.Add(service);
     public async Task HandleProposalAsync(Proposal proposal, ProposalAction action)
     {
         if (!proposal.Type.Equals(ProposalType.PROFESSIONAL_PROPOSAL))
