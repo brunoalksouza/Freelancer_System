@@ -30,7 +30,28 @@ public abstract class User
 
     public async Task AddNewProposalAsync(Proposal proposal)
     {
-        throw new NotImplementedException();
+        var userAlreadyProposal = false;
+
+        if (proposal.Type.Equals(ProposalType.PROFESSIONAL_PROPOSAL))
+        {
+            userAlreadyProposal = Proposals.Any(p =>
+                p.ProfessionalId.Equals(proposal.ProfessionalId) &&
+                p.ServiceId.Equals(proposal.ServiceId)
+            );
+        }
+        else if (proposal.Type.Equals(ProposalType.CLIENT_PROPOSAL)) // Correção do tipo de proposta
+        {
+            userAlreadyProposal = Proposals.Any(p =>
+                p.ClientId.Equals(proposal.ClientId) &&
+                p.ServiceId.Equals(proposal.ServiceId)
+            );
+        }
+
+        if (userAlreadyProposal)
+            throw new InvalidProposalException("You already have a proposal for this service");
+
+        proposal.SetProposalStatus(ProposalStatus.PENDING);
+        Proposals.Add(proposal);
     }
 
     public async Task SendProposalTo(ProposalTo to, Service service, Proposal proposal)
