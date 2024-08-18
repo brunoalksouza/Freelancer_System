@@ -41,5 +41,18 @@ public class Proposal
         Type = type;
     }
 
-    public void SetProposalStatus(ProposalStatus status) => Status = status;
+    public async Task SetProposalStatusAsync(ProposalAction action)
+    {
+        this.Status = (this.Status, action) switch
+        {
+            (ProposalStatus.PENDING,ProposalAction.ACCEPT) => ProposalStatus.CONFIRMED,
+            (ProposalStatus.PENDING,ProposalAction.RECUSE) => ProposalStatus.RECUSED,
+            (ProposalStatus.CANCELLED,ProposalAction.ACCEPT) => throw new ProposalStatusException("You can't accept a proposal that was cancelled"),
+            (ProposalStatus.CANCELLED,ProposalAction.RECUSE) => throw new ProposalStatusException("You can't recuse a proposal that was cancelled"),
+            (ProposalStatus.CONFIRMED,ProposalAction.ACCEPT) => ProposalStatus.CONFIRMED,
+            (ProposalStatus.CONFIRMED,ProposalAction.RECUSE) => throw new ProposalStatusException("You can't recuse a proposal that was accepted"),
+            (ProposalStatus.RECUSED,ProposalAction.ACCEPT) => throw new ProposalStatusException("You can't accept a proposal that was recused"),
+            (ProposalStatus.RECUSED,ProposalAction.RECUSE) => throw new ProposalStatusException("You can't recuse a proposal that was recused")
+        };
+    }
 }
