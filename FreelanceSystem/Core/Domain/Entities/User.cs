@@ -31,16 +31,22 @@ public abstract class User
     public async Task AddNewProposalAsync(Proposal proposal)
     {
         var userAlreadyProposal = false;
-
+        
         if (proposal.Type.Equals(ProposalType.PROFESSIONAL_PROPOSAL))
         {
+            if (Proposals.Any(p => p.ProfessionalId.Equals(Id)))
+                throw new InvalidProposalException("You can't send a proposal to yourself");
+            
             userAlreadyProposal = Proposals.Any(p =>
                 p.ProfessionalId.Equals(proposal.ProfessionalId) &&
                 p.ServiceId.Equals(proposal.ServiceId)
             );
         }
-        else if (proposal.Type.Equals(ProposalType.CLIENT_PROPOSAL)) // Correção do tipo de proposta
+        else if (proposal.Type.Equals(ProposalType.CLIENT_PROPOSAL))
         {
+            if (Proposals.Any(p => p.ClientId.Equals(Id)))
+                throw new InvalidProposalException("You can't send a proposal to yourself");
+
             userAlreadyProposal = Proposals.Any(p =>
                 p.ClientId.Equals(proposal.ClientId) &&
                 p.ServiceId.Equals(proposal.ServiceId)
@@ -52,10 +58,5 @@ public abstract class User
 
         proposal.SetProposalStatus(ProposalStatus.PENDING);
         Proposals.Add(proposal);
-    }
-
-    public async Task SendProposalTo(ProposalTo to, Service service, Proposal proposal)
-    {
-        throw new NotImplementedException();
     }
 }
