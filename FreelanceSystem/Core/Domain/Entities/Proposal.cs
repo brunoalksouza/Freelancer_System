@@ -13,7 +13,7 @@ public class Proposal
     public float Price { get; set; }
     public ProposalType Type { get; set; }
     public ProposalStatus Status { get; set; }
-
+    public DateTime CreatedAt { get; private set; } = DateTime.Now;
     public Proposal(Guid serviceId, string comment, float price, ProposalType type,
         Guid? professionalId, Guid? clientId)
     {

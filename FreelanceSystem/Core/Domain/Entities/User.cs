@@ -14,7 +14,7 @@ public abstract class User
     public List<Review> Reviews { get; set; }
     public List<Proposal> Proposals { get; set; }
     public bool PerfilIsCompleted { get; set; } = false;
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; } = DateTime.Now;
     public UserRole Role { get; set; }
 
     public async Task AddReviewAsync(Review review)

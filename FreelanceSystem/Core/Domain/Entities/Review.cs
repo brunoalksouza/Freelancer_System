@@ -11,7 +11,7 @@ public class Review
     public int TotalNumbers { get; private set; }
     public String Comment { get; set; }
     public ReviewFrom From { get; set; }
-
+    public DateTime CreatedAt { get; private set; } = DateTime.Now;
     public async Task SetTotalNumbersAsync(int totalNumbers)
     {
         if (totalNumbers < 1)
