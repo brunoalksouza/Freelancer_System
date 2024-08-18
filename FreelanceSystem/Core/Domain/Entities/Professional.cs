@@ -9,6 +9,7 @@ public class Professional : User
 
     public async Task HandleClientProposalAsync(Proposal proposal, ProposalAction action)
     {
+        VerifyProfileIsCompleteAsync();
         if (!proposal.Type.Equals(ProposalType.CLIENT_PROPOSAL))
             throw new InvalidOperationException("You only can handle client proposal types");
 

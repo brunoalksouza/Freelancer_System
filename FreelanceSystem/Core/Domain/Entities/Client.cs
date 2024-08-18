@@ -7,9 +7,14 @@ public class Client : User
 {
     public List<Service> Services { get; private set; }
 
-    public async Task CreateNewServiceAsync(Service service) => Services.Add(service);
+    public async Task CreateNewServiceAsync(Service service)
+    {
+        VerifyProfileIsCompleteAsync();
+        Services.Add(service);
+    }
     public async Task HandleProposalAsync(Proposal proposal, ProposalAction action)
     {
+        VerifyProfileIsCompleteAsync();
         if (!proposal.Type.Equals(ProposalType.PROFESSIONAL_PROPOSAL))
             throw new InvalidOperationException("You only can handle professional proposal types");
 

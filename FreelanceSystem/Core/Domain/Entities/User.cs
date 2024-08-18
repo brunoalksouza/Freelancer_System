@@ -13,12 +13,13 @@ public abstract class User
     public String ProfilePicture { get; set; }
     public List<Review> Reviews { get; set; }
     public List<Proposal> Proposals { get; set; }
-    public bool PerfilIsCompleted { get; set; } = false;
+    public bool ProfileIsCompleted { get; set; } = false;
     public DateTime CreatedAt { get; private set; } = DateTime.Now;
     public UserRole Role { get; set; }
 
     public async Task AddReviewAsync(Review review)
     {
+        VerifyProfileIsCompleteAsync();
         var userAlreadyReviewedThisUser =
             Reviews.Select(r => r.UserFromId == review.UserFromId) == null;
 
@@ -30,6 +31,7 @@ public abstract class User
 
     public async Task AddNewProposalAsync(Proposal proposal)
     {
+        VerifyProfileIsCompleteAsync();
         var userAlreadyProposal = false;
         
         if (proposal.Type.Equals(ProposalType.PROFESSIONAL_PROPOSAL))
@@ -59,4 +61,11 @@ public abstract class User
         proposal.Status = ProposalStatus.PENDING;
         Proposals.Add(proposal);
     }
+
+    public async Task VerifyProfileIsCompleteAsync()
+    {
+        if (ProfileIsCompleted == false)
+            throw new ProfileIncompleteException();
+    }
+    
 }
