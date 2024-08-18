@@ -18,9 +18,4 @@ public class Client : User
 
         await proposal.SetProposalStatusAsync(action);
     }
-
-    public async Task SendProposalToProfessional(Professional professional, Proposal proposal)
-    {
-        throw new NotImplementedException();
-    }
 }
