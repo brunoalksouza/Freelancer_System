@@ -36,7 +36,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VPSConnectionString": "Server=77.37.126.110,1433;Database=freelancers;User ID=sa;Password=1q2w3e4r@#$;TrustServerCertificate=true;"
       }
     }
   }
