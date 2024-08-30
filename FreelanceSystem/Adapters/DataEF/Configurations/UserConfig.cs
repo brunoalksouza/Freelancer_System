@@ -1,6 +1,7 @@
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataEF.Configurations;
@@ -17,6 +18,11 @@ public class UserConfig : IEntityTypeConfiguration<User>
         builder.HasDiscriminator<UserRole>("Role")
             .HasValue<Professional>(UserRole.PROFESSIONAL)
             .HasValue<Client>(UserRole.CLIENT);
+
+        builder.Property(x => x.CPF)
+            .IsRequired()
+            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
 
         builder.HasIndex(x => x.Email).IsUnique();
         builder.HasIndex(x => x.CPF).IsUnique();
