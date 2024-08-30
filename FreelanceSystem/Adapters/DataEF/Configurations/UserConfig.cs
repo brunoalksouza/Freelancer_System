@@ -17,8 +17,9 @@ public class UserConfig : IEntityTypeConfiguration<User>
         builder.HasDiscriminator<UserRole>("Role")
             .HasValue<Professional>(UserRole.PROFESSIONAL)
             .HasValue<Client>(UserRole.CLIENT);
-        
+
         builder.HasIndex(x => x.Email).IsUnique();
+        builder.HasIndex(x => x.CPF).IsUnique();
         builder.Property(x => x.PasswordHash)
             .HasColumnType("text").IsRequired();
     }
