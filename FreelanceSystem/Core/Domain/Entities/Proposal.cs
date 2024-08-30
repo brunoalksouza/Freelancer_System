@@ -11,6 +11,7 @@ public class Proposal
     public Guid ServiceId { get; set; }
     public String Comment { get; set; }
     public float Price { get; set; }
+    public List<ProposalComment> ProposalComments { get; set; }
     public ProposalType Type { get; set; }
     public ProposalStatus Status { get; set; }
     public DateTime CreatedAt { get; private set; } = DateTime.Now;
