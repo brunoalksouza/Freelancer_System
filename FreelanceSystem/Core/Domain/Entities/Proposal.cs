@@ -28,7 +28,7 @@ public class Proposal
                 throw new ProposalTypeException("You need to set client ID");
         }
 
-        var minimumPrice = 5.0;
+        var minimumPrice = 25.0;
 
         if (price < minimumPrice)
             throw new InvalidProposalException("Price must be greater than or equal to " + minimumPrice);

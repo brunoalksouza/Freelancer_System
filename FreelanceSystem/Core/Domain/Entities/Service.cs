@@ -27,7 +27,9 @@ public class Service
     }
     public async Task SetPrice(float price)
     {
-        if (price <= 25)
+        var minimumPrice = 25.0;
+
+        if (price <= minimumPrice)
         {
             throw new LowPriceException("The service price need to be bigger than R$ 25,00");
         }
