@@ -14,7 +14,7 @@ public class Service
     public DateTime ServiceDay { get; private set; }
     public DateTime ServiceHour { get; set; }
     public ServiceStatus Status { get; set; }
-    public ServiceType ServiceType { get; set; }
+    public ServiceCategory ServiceCategory { get; set; }
     public DateTime CreatedAt { get; private set; } = DateTime.Now;
 
     public async Task SetServiceDayAsync(DateTime serviceDay)
