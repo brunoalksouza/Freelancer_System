@@ -10,7 +10,7 @@ public class Service
     public Guid? ProfessionalId { get; set; }
     public String Title { get; set; }
     public String Message { get; set; }
-    public float Price { get; set; }
+    public float Price { get; private set; }
     public DateTime ServiceDay { get; private set; }
     public DateTime ServiceHour { get; set; }
     public ServiceStatus Status { get; set; }
@@ -24,5 +24,13 @@ public class Service
             throw new InvalidServiceDayException("Service day need to be in the future.");
         }
         ServiceDay = serviceDay;
+    }
+    public async Task SetPrice(float price)
+    {
+        if (price <= 25)
+        {
+            throw new LowPriceException("The service price need to be bigger than R$ 25,00");
+        }
+        Price = price;
     }
 }
