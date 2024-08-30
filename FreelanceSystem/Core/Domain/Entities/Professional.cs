@@ -6,6 +6,12 @@ namespace Domain.Entities;
 public class Professional : User
 {
     public bool ShowServicesOnList { get; set; }
+    public List<ServiceCategory> ServiceCategories { get; set; }
+
+    public Professional()
+    {
+        ServiceCategories = new List<ServiceCategory>();
+    }
 
     public async Task HandleClientProposalAsync(Proposal proposal, ProposalAction action)
     {
