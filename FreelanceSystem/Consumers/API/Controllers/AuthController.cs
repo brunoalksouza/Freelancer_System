@@ -1,3 +1,5 @@
+using Application.InfraPorts;
+using Application.Requests.Auth;
 using Application.Requests.User;
 using Application.ServicesPorts;
 using Domain.Enums;
@@ -10,10 +12,24 @@ namespace API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IUserService _userService;
-
-    public AuthController(IUserService userService)
+    private readonly IAuthUserAdapter _authUserAdapter;
+    public AuthController(IUserService userService, IAuthUserAdapter authUserAdapter)
     {
         _userService = userService;
+        _authUserAdapter = authUserAdapter;
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginAsync([FromBody] LoginUserRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        var resultado = await _authUserAdapter.AuthenticateAsync(request);
+        if (resultado.Errors.Count <= 0)
+            return Ok(resultado);
+
+        return Unauthorized(resultado);
     }
 
     [HttpPost("register/client")]
