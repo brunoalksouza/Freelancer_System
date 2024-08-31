@@ -3,6 +3,7 @@ using Application.Requests.Auth;
 using Application.Requests.User;
 using Application.ServicesPorts;
 using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
