@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using Application.Exceptions;
 using Application.InfraPorts;
 using Application.Requests.Auth;
 using Application.Requests.User;
@@ -45,6 +46,10 @@ public class UserService : IUserService
 
         user.Name = request.Name;
         user.Email = request.Email;
+        user.BirthDate = request.BirthDate;
+
+        if(!user.IsEighteenYearsOld())
+            throw new InvalidUserParamsException("User need to be eighteen's old");
 
         var auth = new RegisterUserRequest
         {

@@ -17,9 +17,17 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register/client")]
-    public async Task<IActionResult> CreateUserAsync(CreateUserRequest request)
+    public async Task<IActionResult> CreateClientAsync(CreateUserRequest request)
     {
         request.SetRole(UserRole.CLIENT);
+        var created = await _userService.CreateUserAsync(request);
+        var uri = "api/v1/users/" + created.Success.Id;
+        return Created(uri, created);
+    }
+    [HttpPost("register/professional")]
+    public async Task<IActionResult> CreateProfessionalAsync(CreateUserRequest request)
+    {
+        request.SetRole(UserRole.PROFESSIONAL);
         var created = await _userService.CreateUserAsync(request);
         var uri = "api/v1/users/" + created.Success.Id;
         return Created(uri, created);

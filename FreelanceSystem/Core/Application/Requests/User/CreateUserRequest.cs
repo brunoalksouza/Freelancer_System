@@ -20,6 +20,11 @@ public class CreateUserRequest
     [Required]
     [EmailAddress]
     public string Email { get; set; }
+
+    [Required]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}")]
+    public DateTime BirthDate { get; set; }
+
     [JsonIgnore]
     public UserRole Roles { get; private set; }
 
