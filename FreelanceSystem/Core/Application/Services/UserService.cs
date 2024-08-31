@@ -48,7 +48,7 @@ public class UserService : IUserService
         user.Email = request.Email;
         user.BirthDate = request.BirthDate;
 
-        if(!user.IsEighteenYearsOld())
+        if (!user.IsEighteenYearsOld())
             throw new InvalidUserParamsException("User need to be eighteen's old");
 
         var auth = new RegisterUserRequest
@@ -62,5 +62,13 @@ public class UserService : IUserService
         await _userRepository.CreateAsync(user);
         response.Success = new Dtos.UserDto(user);
         return response;
+    }
+
+    public async Task<LoggedUserInfoResponse> GetUserInfoAsync(string userEmail)
+    {
+        var user = await _userRepository.GetOneByEmailAsync(userEmail);
+        if (user == null)
+            throw new EntityNotFoundException("User not founded");
+        return new LoggedUserInfoResponse(user);
     }
 }

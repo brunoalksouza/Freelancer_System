@@ -1,6 +1,7 @@
 using System;
 using Domain.Entities;
 using Domain.Ports;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataEF.Repositories;
 
@@ -17,6 +18,13 @@ public class UserRepository : IUserRepository
     {
         await _appDbContext.Users.AddAsync(user);
         await _appDbContext.SaveChangesAsync();
+        return user;
+    }
+    public async Task<User?> GetOneByEmailAsync(string email)
+    {
+        var user = await _appDbContext.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
+
         return user;
     }
 }

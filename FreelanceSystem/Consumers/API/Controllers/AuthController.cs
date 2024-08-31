@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Application.InfraPorts;
 using Application.Requests.Auth;
 using Application.Requests.User;
@@ -50,5 +52,14 @@ public class AuthController : ControllerBase
         return Created(uri, created);
     }
 
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> GetUserInfoAsync()
+    {
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        var user = await _userService.GetUserInfoAsync(userEmail);
+
+        return Ok(user);
+    }
 }
 
