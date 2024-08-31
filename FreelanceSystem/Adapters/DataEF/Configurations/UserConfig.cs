@@ -20,13 +20,25 @@ public class UserConfig : IEntityTypeConfiguration<User>
             .HasValue<Client>(UserRole.CLIENT);
 
         builder.Property(x => x.CPF)
-            .IsRequired()
+            .HasDefaultValue(null)
+            .IsRequired(false)
             .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+        builder.Property(x => x.Phone)
+            .HasDefaultValue(null)
+            .IsRequired(false);
+
+        builder.Property(x => x.ProfilePicture)
+            .HasDefaultValue(null)
+            .IsRequired(false);
+
+        builder.Property(x => x.Phone)
+            .HasDefaultValue(null)
+            .IsRequired(false);
 
 
         builder.HasIndex(x => x.Email).IsUnique();
         builder.HasIndex(x => x.CPF).IsUnique();
-        builder.Property(x => x.PasswordHash)
-            .HasColumnType("text").IsRequired();
+
     }
 }

@@ -10,6 +10,7 @@ public class Professional : User
 
     public Professional()
     {
+        Role = UserRole.PROFESSIONAL;
         ServiceCategories = new List<ServiceCategory>();
     }
 

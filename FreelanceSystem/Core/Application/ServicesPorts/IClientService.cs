@@ -1,6 +1,6 @@
 namespace Application.ServicesPorts;
 
-public interface IClientRepository
+public interface IClientService
 {
     
 }

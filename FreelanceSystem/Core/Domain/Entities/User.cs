@@ -10,7 +10,6 @@ public abstract class User
     public String CPF { get; set; }
     public String Phone { get; set; }
     public String Email { get; set; }
-    public String PasswordHash { get; set; }
     public String ProfilePicture { get; set; }
     public DateTime BirthDate { get; set; }
     public List<Review> Reviews { get; set; }

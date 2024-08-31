@@ -7,6 +7,11 @@ public class Client : User
 {
     public List<Service> Services { get; private set; }
 
+    public Client()
+    {
+        Role = UserRole.CLIENT;
+    }
+
     public async Task CreateNewServiceAsync(Service service)
     {
         VerifyProfileIsCompleteAsync();
