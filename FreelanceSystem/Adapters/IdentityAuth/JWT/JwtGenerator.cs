@@ -17,10 +17,10 @@ public class JwtGenerator
         _jwtOptions = jwtOptions.Value;
     }
 
-    public async Task<LoggedUserResponse> GerarToken(string email)
+    public async Task<LoggedUserResponse> GenerateToken(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
-        var tokenClaims = await ObterClaims(user);
+        var tokenClaims = await GetClaims(user);
 
         var expTime = DateTime.Now.AddSeconds(_jwtOptions.Expiration);
 
@@ -41,7 +41,7 @@ public class JwtGenerator
         };
     }
 
-    private async Task<IList<Claim>> ObterClaims(IdentityUser user)
+    private async Task<IList<Claim>> GetClaims(IdentityUser user)
     {
         var claims = await _userManager.GetClaimsAsync(user);
         var roles = await _userManager.GetRolesAsync(user);

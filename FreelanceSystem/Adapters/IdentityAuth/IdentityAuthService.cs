@@ -24,7 +24,7 @@ public class IdentityAuthService : IAuthUserAdapter
     public async Task<LoggedUserResponse> AuthenticateAsync(LoginUserRequest request)
     {
         var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, true);
-        if (result.Succeeded) return await _jwtGenerator.GerarToken(request.Email);
+        if (result.Succeeded) return await _jwtGenerator.GenerateToken(request.Email);
 
         var userAuth = new LoggedUserResponse();
         if (!result.Succeeded)
