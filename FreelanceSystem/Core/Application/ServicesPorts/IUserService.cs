@@ -8,4 +8,5 @@ public interface IUserService
 {
   public Task<CreatedUserResponse> CreateUserAsync(CreateUserRequest request);
   public Task<LoggedUserInfoResponse> GetUserInfoAsync(string userEmail);
+  public Task<UpdatedUserResponse> UpdateUserBasicInfoAsync(UpdateUserBasicInfoRequest request, string userEmail);
 }

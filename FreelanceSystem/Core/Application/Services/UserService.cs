@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using Application.Dtos;
 using Application.Exceptions;
 using Application.InfraPorts;
 using Application.Requests.Auth;
@@ -70,5 +71,28 @@ public class UserService : IUserService
         if (user == null)
             throw new EntityNotFoundException("User not founded");
         return new LoggedUserInfoResponse(user);
+    }
+
+    public async Task<UpdatedUserResponse> UpdateUserBasicInfoAsync(UpdateUserBasicInfoRequest request, string userEmail)
+    {
+        var coreUser = await _userRepository.GetOneByEmailAsync(userEmail);
+        if (coreUser == null)
+            throw new EntityNotFoundException("User not founded");
+
+        var updateAuthUserRequest = new UpdateUserRequest
+        {
+            Email = request.Email
+        };
+        await _authUserService.UpdateAuthUserAsync(coreUser, updateAuthUserRequest);
+
+        coreUser.Email = request.Email;
+        coreUser.Name = request.Name;
+        coreUser.CPF = coreUser.CPF != null ? coreUser.CPF : (request.CPF != null ? request.CPF : coreUser.CPF);
+        await _userRepository.UpdateAsync(coreUser);
+
+        return new UpdatedUserResponse
+        {
+            Success = new UserDto(coreUser)
+        };
     }
 }
