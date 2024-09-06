@@ -1,4 +1,3 @@
-appsettings.json/
-obj/
-bin/
-wwwroot/user-profiles/
+/bin/
+/obj/
+/wwwroot/user-profiles/
