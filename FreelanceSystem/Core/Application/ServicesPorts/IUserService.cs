@@ -9,4 +9,5 @@ public interface IUserService
   public Task<CreatedUserResponse> CreateUserAsync(CreateUserRequest request);
   public Task<LoggedUserInfoResponse> GetUserInfoAsync(string userEmail);
   public Task<UpdatedUserResponse> UpdateUserBasicInfoAsync(UpdateUserBasicInfoRequest request, string userEmail);
+   public Task UpdateUserProfilePictureAsync(UpdateUserProfilePictureRequest request, string userEmail);
 }

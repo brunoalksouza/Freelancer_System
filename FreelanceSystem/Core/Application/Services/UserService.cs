@@ -95,4 +95,15 @@ public class UserService : IUserService
             Success = new UserDto(coreUser)
         };
     }
+
+    public async Task UpdateUserProfilePictureAsync(UpdateUserProfilePictureRequest request, string userEmail)
+    {
+        var coreUser = await _userRepository.GetOneByEmailAsync(userEmail);
+        if (coreUser == null)
+            throw new EntityNotFoundException("User not founded");
+
+        coreUser.ProfilePicture = request.Path;
+        coreUser.ProfileIsCompleted = true;
+        await _userRepository.UpdateAsync(coreUser);
+    }
 }

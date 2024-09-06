@@ -1,3 +1,4 @@
+using API.Services;
 using Application.InfraPorts;
 using Application.Services;
 using Application.ServicesPorts;
@@ -16,6 +17,7 @@ public static class ConfigureAppDependenciesExtension
         builder.Services.AddTransient<IUserRepository, UserRepository>();
         builder.Services.AddTransient<IUserService, UserService>();
         builder.Services.AddScoped<JwtGenerator>();
+        builder.Services.AddScoped<SaveProfilePictureService>();
 
     }
 }
