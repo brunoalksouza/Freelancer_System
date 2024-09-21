@@ -18,6 +18,7 @@ public static class ConfigureAppDependenciesExtension
         builder.Services.AddTransient<IUserService, UserService>();
         builder.Services.AddScoped<JwtGenerator>();
         builder.Services.AddScoped<SaveProfilePictureService>();
-
+        builder.Services.AddScoped<IServiceCategoryRepository, ServiceCategoryRepository>();
+        builder.Services.AddScoped<IServiceCategoryService, ServiceCategoryService>();
     }
 }
