@@ -1,4 +1,5 @@
 using Application.Requests.ServiceCategory;
+using Application.Responses.ServiceCategory;
 using Application.ServicesPorts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,17 @@ public class ServiceCategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] CreateServiceCategoryRequest request){
+    public async Task<IActionResult> CreateAsync([FromBody] CreateServiceCategoryRequest request)
+    {
         var created = await iServiceCategoryService.CreateAsync(request);
-        return Created("",created);
+        return Created("", created);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] GetServiceCategoriesRequest  request)
+    {
+        var data = await iServiceCategoryService.GetAllAsync(request);
+        return Ok(data);
     }
 }
 

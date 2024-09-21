@@ -37,4 +37,16 @@ public class ServiceCategoryService : IServiceCategoryService
         response.Success = created;
         return response;
     }
+
+    public async Task<GetAllServiceCategoriesResponse> GetAllAsync(GetServiceCategoriesRequest request){
+        var data = await _serviceCategoryRepository.GetAllAsync(request.PerPage, request.Page);
+        var response = new GetAllServiceCategoriesResponse
+        {
+            Page = request.Page,
+            PerPage = request.PerPage,
+            Success = data,
+        };
+        return response;
+    }
+
 }
