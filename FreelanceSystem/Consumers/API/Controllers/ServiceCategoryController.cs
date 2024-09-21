@@ -23,9 +23,18 @@ public class ServiceCategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] GetServiceCategoriesRequest  request)
+    public async Task<IActionResult> GetAllAsync([FromQuery] GetServiceCategoriesRequest  request)
     {
         var data = await iServiceCategoryService.GetAllAsync(request);
+        return Ok(data);
+    }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetOneAsync(Guid id)
+    {
+        var data = await iServiceCategoryService.GetOneByIdAsync(id);
+        if (data == null)
+            return NoContent();
         return Ok(data);
     }
 }

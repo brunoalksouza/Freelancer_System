@@ -40,4 +40,10 @@ public class ServiceCategoryRepository : IServiceCategoryRepository
 
         return data;
     }
+    public async Task<ServiceCategory?> GetOneById(Guid id)
+    {
+        return await _appDbContext.ServiceCategories
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
 }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Application.Requests.ServiceCategory;
 using Application.Responses.ServiceCategory;
 using Application.ServicesPorts;
+using Domain.Entities;
 using Domain.Ports;
 
 namespace Application.Services;
@@ -47,6 +48,10 @@ public class ServiceCategoryService : IServiceCategoryService
             Success = data,
         };
         return response;
+    }
+
+    public async Task<ServiceCategory?> GetOneByIdAsync(Guid id){
+        return await _serviceCategoryRepository.GetOneById(id);
     }
 
 }
