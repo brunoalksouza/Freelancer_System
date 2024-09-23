@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using Domain.Entities;
 using Domain.Ports;
 using Microsoft.EntityFrameworkCore;
@@ -40,10 +41,16 @@ public class ServiceCategoryRepository : IServiceCategoryRepository
 
         return data;
     }
-    public async Task<ServiceCategory?> GetOneById(Guid id)
+    public async Task<ServiceCategory?> GetOneByIdAsync(Guid id)
     {
         return await _appDbContext.ServiceCategories
-            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<ServiceCategory?> UpdateAsync(ServiceCategory serviceCategory)
+    {
+        _appDbContext.ServiceCategories.Update(serviceCategory);
+        await _appDbContext.SaveChangesAsync();
+        return serviceCategory;
     }
 }

@@ -30,7 +30,8 @@ public class ServiceCategoryService : IServiceCategoryService
                 response.AddError(error.ErrorMessage);
             return response;
         }
-        var created = await _serviceCategoryRepository.CreateAsync(new Domain.Entities.ServiceCategory{
+        var created = await _serviceCategoryRepository.CreateAsync(new Domain.Entities.ServiceCategory
+        {
             Description = request.Description,
             Title = request.Title
         });
@@ -39,7 +40,8 @@ public class ServiceCategoryService : IServiceCategoryService
         return response;
     }
 
-    public async Task<GetAllServiceCategoriesResponse> GetAllAsync(GetServiceCategoriesRequest request){
+    public async Task<GetAllServiceCategoriesResponse> GetAllAsync(GetServiceCategoriesRequest request)
+    {
         var data = await _serviceCategoryRepository.GetAllAsync(request.PerPage, request.Page);
         var response = new GetAllServiceCategoriesResponse
         {
@@ -50,8 +52,15 @@ public class ServiceCategoryService : IServiceCategoryService
         return response;
     }
 
-    public async Task<ServiceCategory?> GetOneByIdAsync(Guid id){
-        return await _serviceCategoryRepository.GetOneById(id);
+    public async Task<ServiceCategory?> GetOneByIdAsync(Guid id)
+    {
+        return await _serviceCategoryRepository.GetOneByIdAsync(id);
     }
-
+    public async Task<ServiceCategory?> UpdateAsync(UpdateServiceCategoryRequest request, ServiceCategory serviceCategory)
+    {
+        serviceCategory.Description = !string.IsNullOrEmpty(request.Description) ? request.Description : serviceCategory.Description;
+        serviceCategory.Title = !string.IsNullOrEmpty(request.Title) ? request.Title : serviceCategory.Title;
+        await _serviceCategoryRepository.UpdateAsync(serviceCategory);
+        return serviceCategory;
+    }
 }
