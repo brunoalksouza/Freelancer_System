@@ -1,12 +1,19 @@
 <template>
   <div class="register-container">
-    <header class="register-header">
-      <h1 class="visually-hidden">Register Page</h1>
-    </header>
     <main class="register-content">
+      <section class="image-section">
+        <img
+          loading="lazy"
+          :src="
+            require('@/assets/LoginView/95cd3ebe39f8704f12ee14178415e50d18f28074f59c83ce8ea6fe5f9c84cef1.png')
+          "
+          alt="Register illustration"
+          class="register-image"
+        />
+      </section>
       <section class="form-section">
         <form @submit.prevent="handleRegister" class="register-form">
-          <h2 class="form-title">CADASTRAR</h2>
+          <h2 class="form-title">REGISTRE-SE</h2>
           <div class="form-group">
             <InputField
               id="name"
@@ -36,40 +43,22 @@
           </div>
           <div class="form-group">
             <InputField
-              id="confirm-password"
+              id="confirmPassword"
               type="password"
               label="Confirmar Senha:"
               placeholder="Confirmar Senha"
               v-model="confirmPassword"
             />
           </div>
-          <div class="form-group">
-            <InputField
-              id="objective"
-              type="text"
-              label="Objetivo:"
-              placeholder="Técnico ou Cliente"
-              v-model="objective"
-            />
-          </div>
-          <p class="login-link" @click.prevent="goToLogin">Já possuo uma conta</p>
-          <button type="submit" class="submit-button">CADASTRAR</button>
+          <button type="submit" class="submit-button">REGISTRAR</button>
         </form>
-      </section>
-      <section class="image-section">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/e0a6fb5495996e6c33e8bab1a59db9b7766eab09b776ea498c470ded3288bddb?placeholderIfAbsent=true&apiKey=dda130aa61fe498cb209bd67829a0c98"
-          alt="Registration illustration"
-          class="registration-image"
-        />
       </section>
     </main>
   </div>
 </template>
 
 <script>
-import InputField from '@/components/InputField.vue';
+import InputField from "@/components/InputField.vue";
 
 export default {
   components: {
@@ -77,69 +66,83 @@ export default {
   },
   data() {
     return {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      objective: '',
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     };
   },
   methods: {
     handleRegister() {
-      console.log('Registro submetido:', this.name, this.email, this.password, this.confirmPassword, this.objective);
-    },
-    goToLogin() {
-      console.log('Redirecionando para login');
+      console.log(
+        "Nome:",
+        this.name,
+        "Email:",
+        this.email,
+        "Senha:",
+        this.password,
+        "Confirmar Senha:",
+        this.confirmPassword
+      );
     },
   },
 };
 </script>
 
 <style scoped>
-.registration-container {
+.register-container {
   background-color: #fff;
-  padding: 0 51px;
+  padding: 0 20px;
   overflow: hidden;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
-
-.registration-content {
+.register-content {
   display: flex;
-  gap: 20px;
+  flex-direction: row-reverse; /* Inverte a ordem, colocando a imagem à direita */
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
 }
-
+.image-section {
+  width: 50%; /* Ajusta a largura para ocupar metade do espaço */
+  max-width: 100%;
+}
+.register-image {
+  aspect-ratio: 0.8;
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
 .form-section {
-  width: 39%;
+  width: 50%; /* Ajusta a largura para ocupar metade do espaço */
+  max-width: 100%;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-.registration-form {
+.register-form {
   border-radius: 15px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   color: #000;
-  padding: 36px 56px;
+  padding: 32px 20px 110px;
   font: 400 22px Inter, sans-serif;
+  width: 100%;
+  max-width: 400px;
 }
-
 .form-title {
   font-size: 35px;
   font-weight: 700;
   text-align: center;
   margin-bottom: 19px;
 }
-
 .form-group {
   margin-bottom: 29px;
 }
-
-.login-link {
-  font-size: 18px;
-  margin-top: 12px;
-  text-align: center;
-  cursor: pointer;
-  color: #000;
-}
-
 .submit-button {
   border-radius: 32px;
   background-color: #272343;
@@ -149,48 +152,35 @@ export default {
   padding: 21px 70px;
   border: none;
   cursor: pointer;
-  align-self: center;
-}
-
-.image-section {
-  width: 61%;
-}
-
-.registration-image {
-  aspect-ratio: 0.8;
-  object-fit: contain;
-  object-position: center;
-  width: 100%;
-}
-
+} /* Mobile Responsiveness */
 @media (max-width: 991px) {
-  .registration-container {
-    padding-left: 20px;
-  }
-
-  .registration-content {
+  .register-content {
     flex-direction: column;
-    align-items: stretch;
-    gap: 0;
   }
-
-  .form-section,
-  .image-section {
+  .image-section,
+  .form-section {
     width: 100%;
   }
-
-  .registration-form {
-    padding: 0 20px;
-  }
-
-  .submit-button {
-    padding: 21px 20px;
-    white-space: normal;
-  }
-
-  .registration-image {
+  .register-image {
     max-width: 100%;
     margin-top: 40px;
+  }
+  .register-form {
+    max-width: 100%;
+    margin-top: 40px;
+    padding: 0 20px 100px;
+  }
+  .submit-button {
+    white-space: normal;
+    padding: 21px 20px;
+  }
+}
+@media (max-width: 768px) {
+  .register-form {
+    padding: 0 10px 50px;
+  }
+  .submit-button {
+    padding: 16px 10px;
   }
 }
 </style>
