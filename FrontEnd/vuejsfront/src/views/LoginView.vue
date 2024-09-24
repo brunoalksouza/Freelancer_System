@@ -94,8 +94,9 @@ body {
 
 .login-content {
   display: flex;
-  flex-wrap: wrap; /* Permite que as seções se ajustem nas telas pequenas */
+  flex-wrap: wrap;
   justify-content: center;
+  align-content: center;
 }
 
 .image-section {
@@ -117,6 +118,8 @@ body {
   width: 39%;
   max-width: 100%;
   padding: 0 10px; /* Reduz o padding lateral */
+  align-content: center;
+  justify-content: center;
 }
 
 .login-form {
