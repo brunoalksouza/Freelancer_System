@@ -5,7 +5,14 @@
     </header>
     <main class="login-content">
       <section class="image-section">
-        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/95cd3ebe39f8704f12ee14178415e50d18f28074f59c83ce8ea6fe5f9c84cef1?placeholderIfAbsent=true&apiKey=dda130aa61fe498cb209bd67829a0c98" alt="Login illustration" class="login-image" />
+        <img
+          loading="lazy"
+          :src="
+            require('@/assets/LoginView/95cd3ebe39f8704f12ee14178415e50d18f28074f59c83ce8ea6fe5f9c84cef1.png')
+          "
+          alt="Login illustration"
+          class="login-image"
+        />
       </section>
       <section class="form-section">
         <form @submit.prevent="handleSubmit" class="login-form">
@@ -29,8 +36,12 @@
             />
           </div>
           <div class="form-links">
-            <a href="#" @click.prevent="createAccount" class="form-link">Criar conta!</a>
-            <a href="#" @click.prevent="forgotPassword" class="form-link">Esqueci minha senha</a>
+            <a href="#" @click.prevent="createAccount" class="form-link"
+              >Criar conta!</a
+            >
+            <a href="#" @click.prevent="forgotPassword" class="form-link"
+              >Esqueci minha senha</a
+            >
           </div>
           <button type="submit" class="submit-button">ENTRAR</button>
         </form>
@@ -40,57 +51,72 @@
 </template>
 
 <script>
-import InputField from '@/components/InputField.vue'
+import InputField from "@/components/InputField.vue";
 
 export default {
   components: {
-    InputField
+    InputField,
   },
   data() {
     return {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: "",
+    };
   },
   methods: {
     handleSubmit() {
-      console.log('Email:', this.email, 'Senha:', this.password);
+      console.log("Email:", this.email, "Senha:", this.password);
     },
     createAccount() {
-      console.log('Criar conta clicado');
+      console.log("Criar conta clicado");
     },
     forgotPassword() {
-      console.log('Esqueci minha senha clicado');
-      }
-  }
-}
+      console.log("Esqueci minha senha clicado");
+    },
+  },
+};
 </script>
 
 <style scoped>
 .login-container {
   background-color: #fff;
-  padding: 0 49px 0 0;
+  padding: 0 20px; /* Reduzi o padding para telas maiores */
   overflow: hidden;
+  max-width: 100vw; /* Garante que o container nunca ultrapasse 100% da largura da tela */
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Evita rolagem horizontal no body */
 }
 
 .login-content {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap; /* Permite que as seções se ajustem nas telas pequenas */
+  justify-content: center;
 }
 
 .image-section {
   width: 61%;
+  max-width: 100%; /* Garante que a imagem nunca ultrapasse a largura do container */
 }
 
 .login-image {
   aspect-ratio: 0.8;
   object-fit: contain;
   object-position: center;
-  width: 100%;
+  width: 100dvh;
+  max-width: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
 }
 
 .form-section {
   width: 39%;
+  max-width: 100%;
+  padding: 0 10px; /* Reduz o padding lateral */
 }
 
 .login-form {
@@ -99,7 +125,7 @@ export default {
   display: flex;
   flex-direction: column;
   color: #000;
-  padding: 32px 52px 110px;
+  padding: 32px 20px 110px; /* Ajuste o padding para responsividade */
   font: 400 22px Inter, sans-serif;
 }
 
@@ -177,6 +203,25 @@ export default {
   .submit-button {
     white-space: normal;
     padding: 21px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-form {
+    padding: 0 10px 50px; /* Ajuste menor de padding para telas menores */
+  }
+
+  .submit-button {
+    padding: 16px 10px; /* Botão mais compacto para telas pequenas */
+  }
+
+  .form-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-link {
+    margin-bottom: 10px;
   }
 }
 </style>
