@@ -63,4 +63,8 @@ public class ServiceCategoryService : IServiceCategoryService
         await _serviceCategoryRepository.UpdateAsync(serviceCategory);
         return serviceCategory;
     }
+    public async Task DeleteAsync(ServiceCategory serviceCategory)
+    {
+        await _serviceCategoryRepository.DeleteAsync(serviceCategory);
+    }
 }

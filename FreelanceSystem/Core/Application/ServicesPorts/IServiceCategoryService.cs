@@ -11,4 +11,5 @@ public interface IServiceCategoryService
     public Task<GetAllServiceCategoriesResponse> GetAllAsync(GetServiceCategoriesRequest request);
     public Task<ServiceCategory?> GetOneByIdAsync(Guid id);
     public Task<ServiceCategory?> UpdateAsync(UpdateServiceCategoryRequest request, ServiceCategory serviceCategory);
+    public Task DeleteAsync(ServiceCategory serviceCategory);
 }

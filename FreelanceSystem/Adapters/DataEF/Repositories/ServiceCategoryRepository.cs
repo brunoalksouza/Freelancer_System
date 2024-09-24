@@ -53,4 +53,9 @@ public class ServiceCategoryRepository : IServiceCategoryRepository
         await _appDbContext.SaveChangesAsync();
         return serviceCategory;
     }
+    public async Task DeleteAsync(ServiceCategory serviceCategory)
+    {
+        _appDbContext.ServiceCategories.Remove(serviceCategory);
+        await _appDbContext.SaveChangesAsync();
+    }
 }

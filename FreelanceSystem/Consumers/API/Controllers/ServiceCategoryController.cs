@@ -43,8 +43,17 @@ public class ServiceCategoryController : ControllerBase
         var data = await iServiceCategoryService.GetOneByIdAsync(id);
         if (data == null)
             return NotFound();
-       var updated = await iServiceCategoryService.UpdateAsync(request, data);
+        var updated = await iServiceCategoryService.UpdateAsync(request, data);
         return Ok(updated);
+    }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteAsync(Guid id)
+    {
+        var data = await iServiceCategoryService.GetOneByIdAsync(id);
+        if (data == null)
+            return NotFound();
+        await iServiceCategoryService.DeleteAsync(data);
+        return NoContent();
     }
 }
 

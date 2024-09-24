@@ -9,4 +9,5 @@ public interface IServiceCategoryRepository
     public Task<List<ServiceCategory>> GetAllAsync(int perPage, int page);
     public Task<ServiceCategory?> GetOneByIdAsync(Guid id);
     public Task<ServiceCategory?> UpdateAsync(ServiceCategory serviceCategory);
+    public Task DeleteAsync(ServiceCategory serviceCategory);
 }
