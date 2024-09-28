@@ -1,4 +1,6 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
+using Application.Exceptions;
 using Application.InfraPorts;
 using Application.Requests.Client;
 using Application.ServicesPorts;
@@ -61,5 +63,16 @@ public class ClientService : IClientService
         var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
         var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
         return service;
+    }
+    public async Task DeleteAsync(string userId, Guid serviceId)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+        var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
+
+        if(service == null)
+            throw new EntityNotFoundException("Service not founded");
+
+        await _serviceRepository.DeleteAsync(service);
     }
 }

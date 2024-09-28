@@ -43,5 +43,14 @@ public class ClientController : ControllerBase
 
         return Ok(data);
     }
+    [HttpDelete("services/{id}")]
+    public async Task<IActionResult> DeleteOneByIdAsync(Guid id)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        await _clientService.DeleteAsync(userId, id);
+
+        return NoContent();
+    }
 
 }

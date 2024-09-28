@@ -42,4 +42,9 @@ public class ServiceRepository : IServiceRepository
             .Where(x => x.ClientId == userId)
             .FirstOrDefaultAsync(x => x.Id == serviceId);
     }
+    public async Task DeleteAsync(Service service)
+    {
+        _appDbContext.Services.Remove(service);
+        await _appDbContext.SaveChangesAsync();
+    }
 }
