@@ -34,5 +34,14 @@ public class ClientController : ControllerBase
 
         return Ok(data);
     }
+    [HttpGet("services/{id}")]
+    public async Task<IActionResult> GetOneByIdAsync(Guid id)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var data = await _clientService.GetOneAsync(userId, id);
+
+        return Ok(data);
+    }
 
 }

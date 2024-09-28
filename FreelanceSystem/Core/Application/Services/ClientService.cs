@@ -54,4 +54,12 @@ public class ClientService : IClientService
         var data = await _serviceRepository.GetAllFromUserAsync(user.Id, request.PerPage, request.Page);
         return data;
     }
+
+    public async Task<Service?> GetOneAsync(string userId, Guid serviceId)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+        var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
+        return service;
+    }
 }

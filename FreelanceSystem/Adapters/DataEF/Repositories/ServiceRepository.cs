@@ -2,6 +2,7 @@ using System;
 using Domain.Entities;
 using Domain.Ports;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace DataEF.Repositories;
 
@@ -34,5 +35,11 @@ public class ServiceRepository : IServiceRepository
         data = await query.AsNoTracking().ToListAsync();
 
         return data;
+    }
+    public async Task<Service?> GetOneFromUserAsync(Guid userId, Guid serviceId)
+    {
+        return await _appDbContext.Services
+            .Where(x => x.ClientId == userId)
+            .FirstOrDefaultAsync(x => x.Id == serviceId);
     }
 }
