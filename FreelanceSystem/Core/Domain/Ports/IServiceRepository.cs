@@ -1,6 +1,8 @@
+using Domain.Entities;
+
 namespace Domain.Ports;
 
-public class IServiceRepository
+public interface IServiceRepository
 {
-    
+    public Task<Service> CreateAsync(Service service);
 }

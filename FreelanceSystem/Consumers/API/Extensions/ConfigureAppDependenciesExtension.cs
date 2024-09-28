@@ -20,5 +20,7 @@ public static class ConfigureAppDependenciesExtension
         builder.Services.AddScoped<SaveProfilePictureService>();
         builder.Services.AddScoped<IServiceCategoryRepository, ServiceCategoryRepository>();
         builder.Services.AddScoped<IServiceCategoryService, ServiceCategoryService>();
+        builder.Services.AddScoped<IClientService, ClientService>();
+        builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
     }
 }
