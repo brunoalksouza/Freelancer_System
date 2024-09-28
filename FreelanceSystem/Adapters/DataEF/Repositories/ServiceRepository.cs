@@ -1,6 +1,7 @@
 using System;
 using Domain.Entities;
 using Domain.Ports;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataEF.Repositories;
 
@@ -18,5 +19,20 @@ public class ServiceRepository : IServiceRepository
         await _appDbContext.Services.AddAsync(service);
         await _appDbContext.SaveChangesAsync();
         return service;
+    }
+
+    public async Task<List<Service>> GetAllFromUserAsync(Guid userId, int perPage, int page)
+    {
+        List<Service> data;
+        IQueryable<Service> query = _appDbContext.Services;
+        int skipAmount = page * perPage;
+        query = query
+            .Where(x => x.ClientId == userId)
+            .Skip(skipAmount)
+            .Take(perPage);
+
+        data = await query.AsNoTracking().ToListAsync();
+
+        return data;
     }
 }

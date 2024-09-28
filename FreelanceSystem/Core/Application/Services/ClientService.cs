@@ -46,4 +46,12 @@ public class ClientService : IClientService
         return created;
 
     }
+    public async Task<List<Service>> GetAllAsync(string userId, GetServicesRequest request)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+
+        var data = await _serviceRepository.GetAllFromUserAsync(user.Id, request.PerPage, request.Page);
+        return data;
+    }
 }

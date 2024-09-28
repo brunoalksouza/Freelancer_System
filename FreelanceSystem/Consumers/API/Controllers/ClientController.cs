@@ -25,6 +25,14 @@ public class ClientController : ControllerBase
         var uri = "api/v1/clients/services/" + created.Id;
         return Created(uri, created);
     }
+    [HttpGet("services")]
+    public async Task<IActionResult> GetAllAsync([FromQuery] GetServicesRequest request)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var data = await _clientService.GetAllAsync(userId, request);
 
+        return Ok(data);
+    }
 
 }
