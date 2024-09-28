@@ -40,6 +40,8 @@ public class ClientController : ControllerBase
         var user = HttpContext.User;
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         var data = await _clientService.GetOneAsync(userId, id);
+        if(data == null)
+            return NotFound();
 
         return Ok(data);
     }
