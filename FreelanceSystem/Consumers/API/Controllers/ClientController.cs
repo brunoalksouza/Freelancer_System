@@ -63,17 +63,14 @@ public class ClientController : ControllerBase
 
         return Ok(updated);
     }
-
     [HttpGet("professionals")]
-    public async Task<IActionResult> GetAllProfessionals([FromQuery] GetAllProfessionalsRequest request)
+    public async Task<IActionResult> GetAllProfessionalsAsync([FromQuery] GetAllProfessionalsRequest request)
     {
         var data = await _clientService.GetAllProfessionalsAsync(request);
         return Ok(data);
     }
-
-
     [HttpPost("professionals/{id}")]
-    public async Task<IActionResult> SendProfessionalProposal([FromBody] SendProposalToProfessionalRequest request, Guid id)
+    public async Task<IActionResult> SendProfessionalProposalAsync([FromBody] SendProposalToProfessionalRequest request, Guid id)
     {
         var user = HttpContext.User;
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -90,5 +87,12 @@ public class ClientController : ControllerBase
 
         return Ok(data);
     }
-
+    [HttpPatch("services/{id}/finish")]
+    public async Task<IActionResult> FinishServiceAsync(Guid id)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var updated = await _clientService.FinishServiceAsync(new Guid(userId), id);
+        return Ok(updated);
+    }
 }

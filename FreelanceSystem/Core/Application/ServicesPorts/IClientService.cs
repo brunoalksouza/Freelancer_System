@@ -14,4 +14,5 @@ public interface IClientService
     public Task<List<UserDto>> GetAllProfessionalsAsync(GetAllProfessionalsRequest request);
     public Task<Proposal> SendProposalToProfessionalAsync(SendProposalToProfessionalRequest request, string userId, Guid professionalId);
     public Task<List<Service>> GetClientServicesInProgressAsync(string userId, GetClientServicesInProgressRequest request);
+    public Task<Service> FinishServiceAsync(Guid userId, Guid serviceId);
 }

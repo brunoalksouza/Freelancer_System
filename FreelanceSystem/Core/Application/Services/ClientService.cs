@@ -157,5 +157,19 @@ public class ClientService : IClientService
         var data = await _serviceRepository.GetClientServicesInProgress(user.Id, request.PerPage, request.Page);
         return data;
     }
+    public async Task<Service> FinishServiceAsync(Guid userId, Guid serviceId)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(userId);
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
 
+        var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
+        if (service == null)
+            throw new EntityNotFoundException("Service not founded");
+
+        service.Status = ServiceStatus.FINISHED;
+
+        await _serviceRepository.UpdateAsync(service);
+        return service;
+
+    }
 }
