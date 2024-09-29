@@ -17,5 +17,5 @@ public interface IClientService
     public Task<List<Service>> GetClientServicesInProgressAsync(string userId, GetClientServicesInProgressRequest request);
     public Task<Service> FinishServiceAsync(Guid userId, Guid serviceId);
     public Task<List<Proposal>> GetServiceProfessionalsProposalsAsync(Guid userId, Guid serviceId, GetServiceProposalRequest request);
-    public Task<Proposal> HandleProposalAsync(Guid userId, Guid proposalId, Guid serviceId, ProposalStatus status);
+    public Task<Proposal> HandleProposalAsync(Guid userId, Guid proposalId, Guid serviceId, ProposalAction action);
 }

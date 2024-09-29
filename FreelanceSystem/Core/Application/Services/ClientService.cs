@@ -181,7 +181,7 @@ public class ClientService : IClientService
         var data = await _proposalRepository.GetAllFromServiceAsync(service.Id, request.PerPage, request.Page, ProposalType.PROFESSIONAL_PROPOSAL);
         return data;
     }
-    public async Task<Proposal> HandleProposalAsync(Guid userId, Guid serviceId, Guid proposalId, ProposalStatus status)
+    public async Task<Proposal> HandleProposalAsync(Guid userId, Guid serviceId, Guid proposalId, ProposalAction action)
     {
         var authUser = await _authUserAdapter.GetOneByIdAsync(userId);
         var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
@@ -194,7 +194,7 @@ public class ClientService : IClientService
         if (proposal == null)
             throw new EntityNotFoundException("Proposal not founded");
         
-        await proposal.SetProposalStatusAsync(ProposalAction.ACCEPT);
+        await proposal.SetProposalStatusAsync(action);
         var updated = await _proposalRepository.UpdateAsync(proposal);
         return updated;
     }

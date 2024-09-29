@@ -108,7 +108,15 @@ public class ClientController : ControllerBase
     {
         var user = HttpContext.User;
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-        var update = await _clientService.HandleProposalAsync(new Guid(userId), id, proposalId, Domain.Enums.ProposalStatus.CONFIRMED);
+        var update = await _clientService.HandleProposalAsync(new Guid(userId), id, proposalId, Domain.Enums.ProposalAction.ACCEPT);
+        return Ok(update);
+    }
+    [HttpPatch("services/{id}/proposals/{proposalId}/refuse")]
+    public async Task<IActionResult> RefuseServiceAsync(Guid id, Guid proposalId)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var update = await _clientService.HandleProposalAsync(new Guid(userId), id, proposalId, Domain.Enums.ProposalAction.RECUSE);
         return Ok(update);
     }
 
