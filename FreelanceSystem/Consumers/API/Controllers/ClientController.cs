@@ -40,7 +40,7 @@ public class ClientController : ControllerBase
         var user = HttpContext.User;
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         var data = await _clientService.GetOneAsync(userId, id);
-        if(data == null)
+        if (data == null)
             return NotFound();
 
         return Ok(data);
@@ -53,6 +53,15 @@ public class ClientController : ControllerBase
         await _clientService.DeleteAsync(userId, id);
 
         return NoContent();
+    }
+    [HttpPut("services/{id}")]
+    public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] UpdateServiceRequest request)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var updated = await _clientService.UpdateAsync(userId, id, request);
+
+        return Ok(updated);
     }
 
 }

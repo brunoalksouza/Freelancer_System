@@ -70,9 +70,46 @@ public class ClientService : IClientService
         var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
         var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
 
-        if(service == null)
+        if (service == null)
             throw new EntityNotFoundException("Service not founded");
 
         await _serviceRepository.DeleteAsync(service);
+    }
+    public async Task<Service> UpdateAsync(string userId, Guid serviceId, UpdateServiceRequest request)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+        var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
+
+        if (service == null)
+            throw new EntityNotFoundException("Service not founded");
+
+        ServiceCategory serviceCategory = service.ServiceCategory;
+        if (request.ServiceCategory != null)
+        {
+            await _serviceCategoryRepository.GetOneByIdAsync(new Guid(request.ServiceCategory.ToString()));
+            if (serviceCategory == null)
+            {
+                throw new Exception("Service category not found.");
+            }
+        }
+
+
+        service.Message = request.Message != null ? request.Message : service.Message;
+        service.Title = request.Title != null ? request.Title : service.Title;
+        service.ServiceCategory = serviceCategory;
+
+        if (request.Price != null)
+        {
+            var preco = (float)request.Price;
+            service.SetPrice(preco);
+        }
+        if (request.ServiceDay != null)
+        {
+            var day = (DateTime)request.ServiceDay;
+            service.SetServiceDay(day);
+        }
+        var updated = await _serviceRepository.UpdateAsync(service);
+        return updated;
     }
 }

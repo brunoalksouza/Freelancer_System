@@ -40,11 +40,19 @@ public class ServiceRepository : IServiceRepository
     {
         return await _appDbContext.Services
             .Where(x => x.ClientId == userId)
+            .Include(x => x.ServiceCategory)
             .FirstOrDefaultAsync(x => x.Id == serviceId);
     }
     public async Task DeleteAsync(Service service)
     {
         _appDbContext.Services.Remove(service);
         await _appDbContext.SaveChangesAsync();
+    }
+
+    public async Task<Service> UpdateAsync(Service service)
+    {
+        _appDbContext.Services.Update(service);
+        await _appDbContext.SaveChangesAsync();
+        return service;
     }
 }
