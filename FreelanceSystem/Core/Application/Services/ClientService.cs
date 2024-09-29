@@ -6,6 +6,7 @@ using Application.InfraPorts;
 using Application.Requests.Client;
 using Application.ServicesPorts;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Ports;
 
 namespace Application.Services;
@@ -16,13 +17,15 @@ public class ClientService : IClientService
     private readonly IUserRepository _userRepository;
     private readonly IAuthUserAdapter _authUserAdapter;
     private readonly IServiceCategoryRepository _serviceCategoryRepository;
+    private readonly IProposalRepository _proposalRepository;
 
-    public ClientService(IServiceRepository serviceRepository, IUserRepository userRepository, IAuthUserAdapter authUserAdapter, IServiceCategoryRepository serviceCategoryRepository)
+    public ClientService(IServiceRepository serviceRepository, IUserRepository userRepository, IAuthUserAdapter authUserAdapter, IServiceCategoryRepository serviceCategoryRepository, IProposalRepository proposalRepository)
     {
         _serviceRepository = serviceRepository;
         _userRepository = userRepository;
         _authUserAdapter = authUserAdapter;
         _serviceCategoryRepository = serviceCategoryRepository;
+        _proposalRepository = proposalRepository;
     }
 
     public async Task<Service> CreateAsync(CreateNewServiceRequest request, string userId)
@@ -118,5 +121,34 @@ public class ClientService : IClientService
         var final = data.Select(x => new UserDto(x)).ToList();
         return final;
     }
+    public async Task<Proposal> SendProposalToProfessionalAsync(SendProposalToProfessionalRequest request, string userId, Guid professionalId)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+        var serviceCategory = await _serviceCategoryRepository.GetOneByIdAsync(request.ServiceCategory);
+        if (serviceCategory == null)
+        {
+            throw new Exception("Service category not found.");
+        }
+
+        var service = new Service
+        {
+            ProfessionalId = professionalId,
+            ClientId = user.Id,
+            Message = request.Message,
+            Title = request.Title,
+            ServiceCategory = serviceCategory
+        };
+        service.SetPrice(request.Price);
+        service.SetServiceDay(request.ServiceDay);
+
+        var serviceCreated = await _serviceRepository.CreateAsync(service);
+
+        var proposal = new Proposal(serviceCreated.Id, request.Comment, request.Price, ProposalType.CLIENT_PROPOSAL, professionalId, user.Id);
+        _proposalRepository.CreateAsync(proposal);
+
+        return proposal;
+    }
+
 
 }

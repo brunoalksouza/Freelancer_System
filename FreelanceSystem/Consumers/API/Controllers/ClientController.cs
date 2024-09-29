@@ -72,4 +72,15 @@ public class ClientController : ControllerBase
     }
 
 
+    [HttpPost("professionals/{id}")]
+    public async Task<IActionResult> SendProfessionalProposal([FromBody] SendProposalToProfessionalRequest request, Guid id)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var created = await _clientService.SendProposalToProfessionalAsync(request, userId, id);
+
+        return Ok(created);
+    }
+
+
 }

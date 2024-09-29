@@ -12,4 +12,5 @@ public interface IClientService
     public Task DeleteAsync(string userId, Guid serviceId);
     public Task<Service> UpdateAsync(string userId, Guid serviceId, UpdateServiceRequest request);
     public Task<List<UserDto>> GetAllProfessionalsAsync(GetAllProfessionalsRequest request);
+    public Task<Proposal> SendProposalToProfessionalAsync(SendProposalToProfessionalRequest request, string userId, Guid professionalId);
 }
