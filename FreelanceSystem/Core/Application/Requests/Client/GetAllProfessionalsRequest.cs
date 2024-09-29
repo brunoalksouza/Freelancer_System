@@ -2,7 +2,7 @@ using System;
 
 namespace Application.Requests.Client;
 
-public class GetServicesRequest
+public class GetAllProfessionalsRequest
 {
     private int _perPage { get; set; } = 10;
     private int _page { get; set; } = 0;

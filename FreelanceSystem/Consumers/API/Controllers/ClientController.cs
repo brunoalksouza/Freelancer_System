@@ -64,4 +64,12 @@ public class ClientController : ControllerBase
         return Ok(updated);
     }
 
+    [HttpGet("professionals")]
+    public async Task<IActionResult> GetAllProfessionals([FromQuery] GetAllProfessionalsRequest request)
+    {
+        var data = await _clientService.GetAllProfessionalsAsync(request);
+        return Ok(data);
+    }
+
+
 }

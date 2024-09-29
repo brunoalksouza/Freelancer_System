@@ -1,5 +1,6 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
+using Application.Dtos;
 using Application.Exceptions;
 using Application.InfraPorts;
 using Application.Requests.Client;
@@ -56,7 +57,6 @@ public class ClientService : IClientService
         var data = await _serviceRepository.GetAllFromUserAsync(user.Id, request.PerPage, request.Page);
         return data;
     }
-
     public async Task<Service?> GetOneAsync(string userId, Guid serviceId)
     {
         var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
@@ -112,4 +112,11 @@ public class ClientService : IClientService
         var updated = await _serviceRepository.UpdateAsync(service);
         return updated;
     }
+    public async Task<List<UserDto>> GetAllProfessionalsAsync(GetAllProfessionalsRequest request)
+    {
+        var data = await _userRepository.GetAllProfessionalsAsync(request.PerPage, request.Page);
+        var final = data.Select(x => new UserDto(x)).ToList();
+        return final;
+    }
+
 }

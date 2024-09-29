@@ -1,3 +1,4 @@
+using Application.Dtos;
 using Application.Requests.Client;
 using Domain.Entities;
 
@@ -10,4 +11,5 @@ public interface IClientService
     public Task<Service?> GetOneAsync(string userId, Guid serviceId);
     public Task DeleteAsync(string userId, Guid serviceId);
     public Task<Service> UpdateAsync(string userId, Guid serviceId, UpdateServiceRequest request);
+    public Task<List<UserDto>> GetAllProfessionalsAsync(GetAllProfessionalsRequest request);
 }

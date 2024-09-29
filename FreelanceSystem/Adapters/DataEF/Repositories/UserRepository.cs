@@ -27,9 +27,24 @@ public class UserRepository : IUserRepository
 
         return user;
     }
-    public async Task<User> UpdateAsync(User user){
+    public async Task<User> UpdateAsync(User user)
+    {
         _appDbContext.Users.Update(user);
         await _appDbContext.SaveChangesAsync();
         return user;
+    }
+    public async Task<List<User>> GetAllProfessionalsAsync(int perPage, int page)
+    {
+        List<User> data;
+        IQueryable<User> query = _appDbContext.Users;
+        int skipAmount = page * perPage;
+        query = query
+            .Where(x => x.Role == Domain.Enums.UserRole.PROFESSIONAL)
+            .Skip(skipAmount)
+            .Take(perPage);
+
+        data = await query.AsNoTracking().ToListAsync();
+
+        return data;
     }
 }
