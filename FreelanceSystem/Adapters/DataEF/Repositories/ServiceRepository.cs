@@ -55,4 +55,19 @@ public class ServiceRepository : IServiceRepository
         await _appDbContext.SaveChangesAsync();
         return service;
     }
+    public async Task<List<Service>> GetClientServicesInProgress(Guid userId, int perPage, int page)
+    {
+        List<Service> data;
+        IQueryable<Service> query = _appDbContext.Services;
+        int skipAmount = page * perPage;
+        query = query
+            .Where(x => x.ClientId == userId)
+            .Where(x=>x.Status == Domain.Enums.ServiceStatus.PROPOSAL_ACCEPTED)
+            .Skip(skipAmount)
+            .Take(perPage);
+
+        data = await query.AsNoTracking().ToListAsync();
+
+        return data;
+    }
 }

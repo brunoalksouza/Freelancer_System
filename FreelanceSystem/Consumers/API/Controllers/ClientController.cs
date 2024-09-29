@@ -81,6 +81,14 @@ public class ClientController : ControllerBase
 
         return Ok(created);
     }
+    [HttpGet("services/in-progress")]
+    public async Task<IActionResult> GetAllServicesInProgressAsync([FromQuery] GetClientServicesInProgressRequest request)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var data = await _clientService.GetClientServicesInProgressAsync(userId, request);
 
+        return Ok(data);
+    }
 
 }

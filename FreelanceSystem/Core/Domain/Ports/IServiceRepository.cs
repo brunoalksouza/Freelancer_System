@@ -9,4 +9,5 @@ public interface IServiceRepository
     public Task<Service?> GetOneFromUserAsync(Guid userId, Guid serviceId);
     public Task DeleteAsync(Service service);
     public Task<Service> UpdateAsync(Service service);
+    public Task<List<Service>> GetClientServicesInProgress(Guid userId, int perPage, int page);
 }

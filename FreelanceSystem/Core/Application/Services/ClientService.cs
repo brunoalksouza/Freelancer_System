@@ -149,6 +149,13 @@ public class ClientService : IClientService
 
         return proposal;
     }
+    public async Task<List<Service>> GetClientServicesInProgressAsync(string userId, GetClientServicesInProgressRequest request)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
 
+        var data = await _serviceRepository.GetClientServicesInProgress(user.Id, request.PerPage, request.Page);
+        return data;
+    }
 
 }
