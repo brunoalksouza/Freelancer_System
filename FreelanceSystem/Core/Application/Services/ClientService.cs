@@ -170,6 +170,18 @@ public class ClientService : IClientService
 
         await _serviceRepository.UpdateAsync(service);
         return service;
-
     }
+    public async Task<List<Proposal>> GetServiceProfessionalsProposalsAsync(Guid userId, Guid serviceId, GetServiceProposalRequest request)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(userId);
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+
+        var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
+        if (service == null)
+            throw new EntityNotFoundException("Service not founded");
+
+        var data = await _proposalRepository.GetAllFromServiceAsync(service.Id, request.PerPage, request.Page, ProposalType.PROFESSIONAL_PROPOSAL);
+        return data;
+    }
+
 }

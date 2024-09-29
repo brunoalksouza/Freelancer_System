@@ -95,4 +95,13 @@ public class ClientController : ControllerBase
         var updated = await _clientService.FinishServiceAsync(new Guid(userId), id);
         return Ok(updated);
     }
+    [HttpGet("services/{id}/proposals")]
+    public async Task<IActionResult> GetServiceProposals(Guid id, [FromQuery] GetServiceProposalRequest request)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var data = await _clientService.GetServiceProfessionalsProposalsAsync(new Guid(userId), id, request);
+        return Ok(data);
+    }
+
 }
