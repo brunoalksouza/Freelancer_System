@@ -23,5 +23,6 @@ public static class ConfigureAppDependenciesExtension
         builder.Services.AddScoped<IClientService, ClientService>();
         builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
         builder.Services.AddScoped<IProposalRepository, ProposalRepository>();
+        builder.Services.AddScoped<IProfessionalService, ProfessionalService>();
     }
 }

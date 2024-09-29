@@ -1,5 +1,3 @@
-using System;
-using System.Security.Cryptography.X509Certificates;
 using Application.Dtos;
 using Application.Exceptions;
 using Application.InfraPorts;
@@ -193,9 +191,24 @@ public class ClientService : IClientService
         var proposal = await _proposalRepository.GetOneFromClientAsync(user.Id, proposalId, service.Id);
         if (proposal == null)
             throw new EntityNotFoundException("Proposal not founded");
-        
+
         await proposal.SetProposalStatusAsync(action);
         var updated = await _proposalRepository.UpdateAsync(proposal);
+
+        if (updated.Status == ProposalStatus.CONFIRMED)
+        {
+            service.Status = ServiceStatus.PROPOSAL_ACCEPTED;
+        }
+        if (updated.Status == ProposalStatus.CANCELLED)
+        {
+            service.Status = ServiceStatus.WAITING_PROPOSAL;
+        }
+        if (updated.Status == ProposalStatus.RECUSED)
+        {
+            service.Status = ServiceStatus.WAITING_PROPOSAL;
+        }
+
+        await _serviceRepository.UpdateAsync(service);
         return updated;
     }
 }

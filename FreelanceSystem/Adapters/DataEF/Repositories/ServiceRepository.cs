@@ -62,7 +62,21 @@ public class ServiceRepository : IServiceRepository
         int skipAmount = page * perPage;
         query = query
             .Where(x => x.ClientId == userId)
-            .Where(x=>x.Status == Domain.Enums.ServiceStatus.PROPOSAL_ACCEPTED)
+            .Where(x => x.Status == Domain.Enums.ServiceStatus.PROPOSAL_ACCEPTED)
+            .Skip(skipAmount)
+            .Take(perPage);
+
+        data = await query.AsNoTracking().ToListAsync();
+
+        return data;
+    }
+    public async Task<List<Service>> GetAllWaitingProposalAsync(int perPage, int page)
+    {
+        List<Service> data;
+        IQueryable<Service> query = _appDbContext.Services;
+        int skipAmount = page * perPage;
+        query = query
+            .Where(x => x.Status == Domain.Enums.ServiceStatus.WAITING_PROPOSAL)
             .Skip(skipAmount)
             .Take(perPage);
 
