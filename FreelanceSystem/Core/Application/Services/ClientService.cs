@@ -18,7 +18,6 @@ public class ClientService : IClientService
     private readonly IAuthUserAdapter _authUserAdapter;
     private readonly IServiceCategoryRepository _serviceCategoryRepository;
     private readonly IProposalRepository _proposalRepository;
-
     public ClientService(IServiceRepository serviceRepository, IUserRepository userRepository, IAuthUserAdapter authUserAdapter, IServiceCategoryRepository serviceCategoryRepository, IProposalRepository proposalRepository)
     {
         _serviceRepository = serviceRepository;
@@ -27,7 +26,6 @@ public class ClientService : IClientService
         _serviceCategoryRepository = serviceCategoryRepository;
         _proposalRepository = proposalRepository;
     }
-
     public async Task<Service> CreateAsync(CreateNewServiceRequest request, string userId)
     {
         var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
@@ -183,5 +181,21 @@ public class ClientService : IClientService
         var data = await _proposalRepository.GetAllFromServiceAsync(service.Id, request.PerPage, request.Page, ProposalType.PROFESSIONAL_PROPOSAL);
         return data;
     }
+    public async Task<Proposal> HandleProposalAsync(Guid userId, Guid serviceId, Guid proposalId, ProposalStatus status)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(userId);
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
 
+        var service = await _serviceRepository.GetOneFromUserAsync(user.Id, serviceId);
+        if (service == null)
+            throw new EntityNotFoundException("Service not founded");
+
+        var proposal = await _proposalRepository.GetOneFromClientAsync(user.Id, proposalId, service.Id);
+        if (proposal == null)
+            throw new EntityNotFoundException("Proposal not founded");
+        
+        await proposal.SetProposalStatusAsync(ProposalAction.ACCEPT);
+        var updated = await _proposalRepository.UpdateAsync(proposal);
+        return updated;
+    }
 }

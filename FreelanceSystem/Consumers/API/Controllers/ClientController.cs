@@ -96,12 +96,20 @@ public class ClientController : ControllerBase
         return Ok(updated);
     }
     [HttpGet("services/{id}/proposals")]
-    public async Task<IActionResult> GetServiceProposals(Guid id, [FromQuery] GetServiceProposalRequest request)
+    public async Task<IActionResult> GetServiceProposalsAsync(Guid id, [FromQuery] GetServiceProposalRequest request)
     {
         var user = HttpContext.User;
         var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
         var data = await _clientService.GetServiceProfessionalsProposalsAsync(new Guid(userId), id, request);
         return Ok(data);
+    }
+    [HttpPatch("services/{id}/proposals/{proposalId}/accept")]
+    public async Task<IActionResult> AcceptServiceAsync(Guid id, Guid proposalId)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var update = await _clientService.HandleProposalAsync(new Guid(userId), id, proposalId, Domain.Enums.ProposalStatus.CONFIRMED);
+        return Ok(update);
     }
 
 }

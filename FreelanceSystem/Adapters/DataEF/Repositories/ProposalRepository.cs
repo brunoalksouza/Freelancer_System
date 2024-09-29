@@ -37,4 +37,19 @@ public class ProposalRepository : IProposalRepository
 
         return data;
     }
+
+    public async Task<Proposal?> GetOneFromClientAsync(Guid userId, Guid proposalId, Guid serviceId)
+    {
+        var data = await _appDbContext.Proposals
+            .Where(x => x.ClientId == userId)
+            .Where(x => x.ServiceId == serviceId)
+            .FirstOrDefaultAsync(x => x.Id == proposalId);
+        return data;
+    }
+    public async Task<Proposal> UpdateAsync(Proposal proposal)
+    {
+        _appDbContext.Proposals.Update(proposal);
+        await _appDbContext.SaveChangesAsync();
+        return proposal;
+    }
 }
