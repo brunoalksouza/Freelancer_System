@@ -52,4 +52,13 @@ public class ProfessionalController : ControllerBase
 
         return Ok(new { success = "Proposal recused successfully!" });
     }
+    [HttpGet("services/accepted")]
+    public async Task<IActionResult> GetAllServicesInProgressAsync([FromQuery] GetAllServicesInProgressRequest request)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var data = await _professionalService.GetAllServicesInProgressAsync(request, userId);
+
+        return Ok(data);
+    }
 }

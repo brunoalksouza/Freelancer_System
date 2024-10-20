@@ -88,4 +88,20 @@ public class ServiceRepository : IServiceRepository
     {
         return await _appDbContext.Services.FirstOrDefaultAsync(x => x.Id == serviceId);
     }
+
+    public async Task<List<Service>> GetAllInProgressFromProfessionalAsync(Guid professionalId, int perPage, int page)
+    {
+        List<Service> data;
+        IQueryable<Service> query = _appDbContext.Services;
+        int skipAmount = page * perPage;
+        query = query
+            .Where(x => x.Status == Domain.Enums.ServiceStatus.PROPOSAL_ACCEPTED)
+            .Where(x => x.ProfessionalId == professionalId)
+            .Skip(skipAmount)
+            .Take(perPage);
+
+        data = await query.AsNoTracking().ToListAsync();
+
+        return data;
+    }
 }

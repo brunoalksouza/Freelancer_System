@@ -42,6 +42,7 @@ public class ProfessionalService : IProfessionalService
             throw new EntityNotFoundException("Service was not founded");
 
         var proposal = new Proposal(service.Id, request.Comment, request.Price, ProposalType.PROFESSIONAL_PROPOSAL, user.Id, service.ClientId);
+        await proposal.SetProposalStatusAsync(ProposalAction.QUESTION_TO_CLIENT);
         await _proposalRepository.CreateAsync(proposal);
 
         return proposal;
@@ -64,5 +65,13 @@ public class ProfessionalService : IProfessionalService
 
         proposal.SetProposalStatusAsync(ProposalAction.RECUSE);
         await _proposalRepository.UpdateAsync(proposal);
+    }
+    public async Task<List<Service>> GetAllServicesInProgressAsync(GetAllServicesInProgressRequest request, string userId)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+        var data = await _serviceRepository.GetAllInProgressFromProfessionalAsync(user.Id, request.PerPage, request.Page);
+
+        return data;
     }
 }
