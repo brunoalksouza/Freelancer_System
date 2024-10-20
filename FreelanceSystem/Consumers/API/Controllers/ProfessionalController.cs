@@ -33,4 +33,13 @@ public class ProfessionalController : ControllerBase
 
         return Ok(data);
     }
+    [HttpGet("proposals")]
+    public async Task<IActionResult> GetAllSendedProposalAsync([FromQuery] GetProfessionalProposalsRequest request)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var data = await _professionalService.GetAllSendedProposalAsync(request, userId);
+
+        return Ok(data);
+    }
 }

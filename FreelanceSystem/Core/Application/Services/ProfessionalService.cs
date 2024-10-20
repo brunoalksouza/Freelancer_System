@@ -46,4 +46,12 @@ public class ProfessionalService : IProfessionalService
 
         return proposal;
     }
+    public async Task<List<Proposal>> GetAllSendedProposalAsync(GetProfessionalProposalsRequest request, string userId)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+        var data = await _proposalRepository.GetAllFromProfessionalAsync(user.Id, request.PerPage, request.Page, ProposalType.PROFESSIONAL_PROPOSAL);
+
+        return data;
+    }
 }

@@ -9,4 +9,5 @@ public interface IProposalRepository
     public Task<Proposal> UpdateAsync(Proposal proposal);   
     public Task<Proposal?> GetOneFromClientAsync(Guid userId, Guid proposalId, Guid serviceId);
     public Task<List<Proposal>> GetAllFromServiceAsync(Guid serviceId, int perPage, int page, ProposalType proposalType);
+    public Task<List<Proposal>> GetAllFromProfessionalAsync(Guid professionalId, int perPage, int page, ProposalType proposalType);
 }

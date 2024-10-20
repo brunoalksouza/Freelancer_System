@@ -52,4 +52,22 @@ public class ProposalRepository : IProposalRepository
         await _appDbContext.SaveChangesAsync();
         return proposal;
     }
+
+    public async Task<List<Proposal>> GetAllFromProfessionalAsync(Guid professionalId, int perPage, int page, ProposalType proposalType)
+    {
+        IQueryable<Proposal> query = _appDbContext.Proposals;
+        var totalCount = await query.CountAsync();
+        System.Console.WriteLine(professionalId);
+        int skipAmount = page * perPage;
+        query = query
+            .OrderByDescending(x => x.Id)
+            .Where(x => x.ProfessionalId == professionalId)
+            .Where(x => x.Type == proposalType)
+            .Skip(skipAmount)
+            .Take(perPage);
+
+        var data = await query.AsNoTracking().ToListAsync();
+
+        return data;
+    }
 }
