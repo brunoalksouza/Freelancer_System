@@ -1,4 +1,6 @@
 using System;
+using System.Security.Claims;
+using Application.Requests.Client;
 using Application.Requests.Professional;
 using Application.ServicesPorts;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +18,19 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpGet("services")]
-    public async Task<IActionResult> GetServicesAsync([FromQuery] GetServicesRequest request)
+    public async Task<IActionResult> GetServicesAsync([FromQuery] Application.Requests.Professional.GetServicesRequest request)
     {
         var data = await _professionalService.GetNewServicesAsync(request);
+        return Ok(data);
+    }
+
+    [HttpPost("services/{id}/proposal")]
+    public async Task<IActionResult> SendProfessionalProposalAsync([FromBody] SendProposalToServiceRequest request, Guid id)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        var data = await _professionalService.SendProfessionalProposalAsync(request, id, userId);
+
         return Ok(data);
     }
 }

@@ -84,4 +84,8 @@ public class ServiceRepository : IServiceRepository
 
         return data;
     }
+    public async Task<Service?> GetOneById(Guid serviceId)
+    {
+        return await _appDbContext.Services.FirstOrDefaultAsync(x => x.Id == serviceId);
+    }
 }
