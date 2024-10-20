@@ -54,4 +54,15 @@ public class ProfessionalService : IProfessionalService
 
         return data;
     }
+    public async Task CancelProposalAsync(Guid proposalId, string userId)
+    {
+        var authUser = await _authUserAdapter.GetOneByIdAsync(new Guid(userId));
+        var user = await _userRepository.GetOneByEmailAsync(authUser.Email);
+        var proposal = await _proposalRepository.GetOneFromProfessionalAsync(user.Id, proposalId);
+        if (proposal == null)
+            throw new EntityNotFoundException("Proposal not founded");
+
+        proposal.SetProposalStatusAsync(ProposalAction.RECUSE);
+        await _proposalRepository.UpdateAsync(proposal);
+    }
 }

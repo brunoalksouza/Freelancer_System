@@ -42,4 +42,14 @@ public class ProfessionalController : ControllerBase
 
         return Ok(data);
     }
+
+    [HttpDelete("proposal/{proposalId}")]
+    public async Task<IActionResult> GetAllSendedProposalAsync(Guid proposalId)
+    {
+        var user = HttpContext.User;
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        await _professionalService.CancelProposalAsync(proposalId, userId);
+
+        return Ok(new { success = "Proposal recused successfully!" });
+    }
 }

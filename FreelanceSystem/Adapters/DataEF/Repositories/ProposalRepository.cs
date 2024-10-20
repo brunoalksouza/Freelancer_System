@@ -46,6 +46,13 @@ public class ProposalRepository : IProposalRepository
             .FirstOrDefaultAsync(x => x.Id == proposalId);
         return data;
     }
+    public async Task<Proposal?> GetOneFromProfessionalAsync(Guid userId, Guid proposalId)
+    {
+        var data = await _appDbContext.Proposals
+            .Where(x => x.ProfessionalId == userId)
+            .FirstOrDefaultAsync(x => x.Id == proposalId);
+        return data;
+    }
     public async Task<Proposal> UpdateAsync(Proposal proposal)
     {
         _appDbContext.Proposals.Update(proposal);

@@ -9,4 +9,5 @@ public interface IProfessionalService
     public Task<List<Service>> GetNewServicesAsync(Application.Requests.Professional.GetServicesRequest request);
     public Task<Proposal> SendProfessionalProposalAsync(SendProposalToServiceRequest request, Guid serviceId, string userId);
     public Task<List<Proposal>> GetAllSendedProposalAsync(GetProfessionalProposalsRequest request, string userId);
+    public Task CancelProposalAsync(Guid proposalId, string userId);
 }
