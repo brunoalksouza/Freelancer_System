@@ -29,8 +29,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Dtos\Requests\User\" />
       <Folder Include="Dtos\Responses\" />
+      <Folder Include="wwwroot\" />
+      <Folder Include="wwwroot\users-profiles\pictures\" />
     </ItemGroup>
 
 </Project>

@@ -17,15 +17,15 @@ public class Service
     public ServiceCategory ServiceCategory { get; set; }
     public DateTime CreatedAt { get; private set; } = DateTime.Now;
 
-    public async Task SetServiceDayAsync(DateTime serviceDay)
+    public void SetServiceDay(DateTime serviceDay)
     {
-        if (ServiceDay < DateTime.Today)
+        if (serviceDay < DateTime.Today)
         {
             throw new InvalidServiceDayException("Service day need to be in the future.");
         }
         ServiceDay = serviceDay;
     }
-    public async Task SetPrice(float price)
+    public void SetPrice(float price)
     {
         var minimumPrice = 25.0;
 

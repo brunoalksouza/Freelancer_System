@@ -70,24 +70,16 @@ public class IdentityAuthService : IAuthUserAdapter
 
         if (identityUser == null)
             throw new AuthUserNotFoundException("Auth user was not founded");
-
+       
         if (!string.IsNullOrEmpty(request.Email))
         {
             identityUser.Email = request.Email;
             identityUser.UserName = request.Email;
-            user.Email = request.Email;
-
+                        
             var emailUpdateResult = await _userManager.UpdateAsync(identityUser);
+            System.Console.WriteLine(emailUpdateResult.Succeeded);
             if (!emailUpdateResult.Succeeded)
                 throw new Exception("Error when try to update user");
-        }
-
-        if (!string.IsNullOrEmpty(request.Password))
-        {
-            var token = await _userManager.GeneratePasswordResetTokenAsync(identityUser);
-            var passwordUpdateResult = await _userManager.ResetPasswordAsync(identityUser, token, request.Password);
-            if (!passwordUpdateResult.Succeeded)
-                throw new Exception("Error when try to update auth user password");
         }
 
     }
@@ -107,5 +99,12 @@ public class IdentityAuthService : IAuthUserAdapter
         var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null) return null;
         return new UserDto { Email = user.Email, Name = user.UserName, Id = id };
+    }
+
+    public async Task<UserDto?> GetOneByEmailAsync(string email)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null) return null;
+        return new UserDto { Email = user.Email, Name = user.UserName, Id = new Guid(user.Id) };
     }
 }

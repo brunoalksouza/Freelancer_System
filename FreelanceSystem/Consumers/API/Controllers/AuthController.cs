@@ -43,6 +43,7 @@ public class AuthController : ControllerBase
         var uri = "api/v1/users/" + created.Success.Id;
         return Created(uri, created);
     }
+    
     [HttpPost("register/professional")]
     public async Task<IActionResult> CreateProfessionalAsync(CreateUserRequest request)
     {
